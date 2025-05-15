@@ -17,19 +17,18 @@
             </x-select>
 
             <x-select label="Status" class="cursor-pointer" wire:model="id_status" id="status" name="status" required>
-                <option value="Triagem">Triagem</option>
-                <option value="Iniciando atendimento">Iniciando atendimento</option>
-                <option value="Em atendimento">Em atendimento</option>
-                <option value="Finalizado">Finalizado</option>
+                @foreach ($statusOptions as $status => $descricao)
+                <option value="{{$status}}">{{$descricao}}</option>
+                @endforeach
             </x-select>
 
             <x-select label="Mostrar no painel" class="cursor-pointer" wire:model="sn_mostra_painel" id="mostra-painel" name="mostra-painel" required>
-                <option value="Não">Não</option>
-                <option value="Sim">Sim</option>
+                <option value="N">Não</option>
+                <option value="S">Sim</option>
             </x-select>
 
             <div class="flex items-end">
-                <x-button type="submit" class="cursor-pointer">Adicionar Paciente</x-button>
+                <x-button type="submit" class="cursor-pointer !bg-blue-700 !text-white">Adicionar Paciente</x-button>
             </div>
         </form>
     </card>
@@ -49,26 +48,42 @@
             </thead>
             <tbody>
                 @foreach ($chamadas as $chamada)
-                    <tr class="hover:bg-gray-100">
-                        <td>{{ $chamada->nome_paciente }}</td>
-                        <td>{{ $chamada->dt_nascimento }}</td>
-                        <td>DR DOUGLAS GRION</td>
-                        <td>
-                            <x-select class="cursor-pointer" wire:change="atualizarStatus({{ $chamada->id_chamada }}, $event.target.value)">
-                                <option value="{{$chamada->id_status}}">{{$chamada->descricao}}</option>
-                            </x-select>
-                        </td>
-                        <td class="flex gap-2">
-                            @if ($chamada->sn_mostra_painel == 'S')
-                            <x-button icon="eye"  class="cursor-pointer !bg-green-400" wire:click="ocultarRegistroPainel({{ $chamada->id_chamada }})"/>
-                            @else
-                            <x-button icon="eye-slash" class="cursor-pointer !bg-red-400" wire:click="mostrarRegistroPainel({{ $chamada->id_chamada }})" />
-                            @endif
-                            <x-button icon="trash" class="cursor-pointer !bg-red-500 !text-white" onclick="alert('Excluir paciente')" />
-                        </td>
-                    </tr>
+                <tr class="hover:bg-gray-100">
+                    <td>{{ $chamada->nome_paciente }}</td>
+                    <td>{{ $chamada->dt_nascimento }}</td>
+                    <td>DR DOUGLAS GRION</td>
+                    <td>
+                        <x-select class="cursor-pointer" wire:change="atualizarStatus({{ $chamada->id_chamada }}, $event.target.value)">
+                            @foreach ($statusOptions as $id => $descricao)
+                            <option value="{{ $id }}" {{ $chamada->id_status == $id ? 'selected' : '' }}>
+                                {{ $descricao }}
+                            </option>
+                            @endforeach
+                        </x-select>
+                    </td>
+                    <td class="flex gap-2">
+                        @if ($chamada->sn_mostra_painel == 'S')
+                        <x-button icon="eye" class="cursor-pointer !bg-green-400" wire:click="ocultarRegistroPainel({{ $chamada->id_chamada }})" />
+                        @else
+                        <x-button icon="eye-slash" class="cursor-pointer !bg-red-400" wire:click="mostrarRegistroPainel({{ $chamada->id_chamada }})" />
+                        @endif
+                        <x-button icon="trash" class="cursor-pointer !bg-red-500 !text-white" wire:click="mostraModalDelete({{ $chamada->id_chamada }})" />
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
     </card>
+    <x-modal wire:model="modalDelete" class="backdrop-blur">
+        <div class="p-[50px] text-center">
+            <div>
+                Deseja realmente excluir esse paciente?
+            </div>
+            <div class="mt-[30px]">
+                <x-button class="cursor-pointer !bg-red-500 !text-white" @click="$wire.modalDelete = false">Não</x-button>
+                <x-button class="cursor-pointer !bg-green-500 !text-white" wire:click="apagarRegistroLista()">Sim</x-button>
+            </div>
+        </div>
+
+    </x-modal>
 </div>

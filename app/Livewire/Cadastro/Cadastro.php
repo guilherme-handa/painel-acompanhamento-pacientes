@@ -10,35 +10,30 @@ class Cadastro extends Component
 {
 
     public $chamadas = [];
-    public $nm_paciente, $dt_nascimento, $id_medico, $id_status, $sn_mostra_painel;
+    public $statusOptions = [];
+    public $modalDelete = false;
+    public $nm_paciente, $dt_nascimento, $id_medico, $id_status, $sn_mostra_painel, $id_registro_delete;
 
     public function render()
     {
-        $this->chamadas = DB::connection('mysql')->select("SELECT CHA.*
-                                                                 ,STA.descricao
-                                                             FROM lista_chamadas  CHA
-                                                                 ,status_paciente STA
-                                                            WHERE CHA.id_status = STA.id_status     
-                                                                 ");
+        $this->chamadas = DB::connection('mysql')->select("
+            SELECT CHA.*
+                  ,STA.descricao
+              FROM lista_chamadas  CHA
+                  ,status_paciente STA
+             WHERE CHA.id_status = STA.id_status
+        ");
 
-        // dd($this->chamadas);
+        $this->statusOptions = DB::connection('mysql')->table('status_paciente')->pluck('descricao', 'id_status')->toArray();
+        
 
         return view('livewire.cadastro.cadastro');
-    }
-
-    public function atualizarStatus($index, $novoStatus)
-    {
-        dd($index);
-
-        $this->items[$index]['status'] = $novoStatus;
-        // Aqui você poderia fazer update no banco, exemplo:
-        // Item::find($this->items[$index]['id'])->update(['status' => $novoStatus]);
     }
 
     public function adicionarPaciente()
     {
 
-        // dd($this->dt_nascimento);
+        $this->id_status = (int)$this->id_status;
 
         $insert = DB::connection('mysql')->statement(
             "INSERT INTO lista_chamadas (nome_paciente, dt_nascimento, id_medico, id_status, sn_mostra_painel)
@@ -54,31 +49,51 @@ class Cadastro extends Component
 
         if ($insert) {
             session()->flash('message', 'Paciente adicionado com sucesso.');
+            $this->reset('nm_paciente', 'dt_nascimento', 'id_medico', 'id_status', 'sn_mostra_painel');
         } else {
             session()->flash('error', 'Erro ao adicionar paciente.');
         }
 
+    }
 
-        // Validação e criação do paciente
-        // Exemplo:
-        // $this->validate([
-        //     'nome_paciente' => 'required|string',
-        //     'dt_nascimento' => 'required|date',
-        //     'id_medico' => 'required|integer',
-        //     'id_status' => 'required|integer',
-        //     'sn_mostra_painel' => 'required|string',
-        // ]);
+    public function atualizarStatus($index, $novoStatus)
+    {
+        
+        $update = DB::connection('mysql')->statement(
+            "UPDATE lista_chamadas
+                SET lista_chamadas.id_status = :novo_status
+              WHERE lista_chamadas.id_chamada = :id_chamada",
+              [
+                ':novo_status' => $novoStatus,
+                ':id_chamada'  => $index
+              ]
+        );
 
-        // // ListaChamada::create([
-        // //     'nome_paciente' => $this->nm_paciente,
-        // //     'dt_nascimento' => $this->dt_nascimento,
-        // //     'id_medico' => $this->id_medico,
-        // //     'id_status' => $this->id_status,
-        // //     'sn_mostra_painel' => $this->sn_mostra_painel,
-        // // ]);
+        if ($update) {
+            session()->flash('message', 'Status atualizado com sucesso.');   
+        } else {
+            session()->flash('error', 'Erro ao atualizar status.');
+        }
+        
+    }
 
-        // Limpar campos ou feedback
-        // $this->reset(['nome', 'nascimento', 'medico', 'status', 'mostraPainel']);
+    public function apagarRegistroLista()
+    {
+        $delete = DB::connection('mysql')->statement(
+            "DELETE FROM lista_chamadas WHERE lista_chamadas.id_chamada = :id_chamada",
+            [
+                ':id_chamada' => $this->id_registro_delete
+            ]
+        );
+
+        if ($delete) {
+            $this->reset('id_registro_delete');
+            $this->modalDelete = false;
+            session()->flash('message', 'Registro apagado com sucesso.');   
+        } else {
+            session()->flash('error', 'Erro ao apagar registro.');
+        }
+
     }
 
     public function ocultarRegistroPainel($id)
@@ -106,4 +121,11 @@ class Cadastro extends Component
             ]
         );
     }
+
+    public function mostraModalDelete($id_chamada)
+    {
+        $this->modalDelete = true;
+        $this->id_registro_delete = $id_chamada;
+    }
+
 }

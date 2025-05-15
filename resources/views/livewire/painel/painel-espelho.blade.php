@@ -18,7 +18,7 @@
                     <tr class="transition">
                         <td class="px-6 py-4">{{ $chamada->nome_paciente }}</td>
                         <td class="px-6 py-4">{{ $chamada->dt_nascimento ?? '-' }}</td>
-                        <td class="px-6 py-4">{{ $chamada->status ?? '-' }}</td>
+                        <td class="px-6 py-4">{{ $chamada->descricao ?? '-' }}</td>
                     </tr>
                 @empty
                     <tr>
@@ -29,3 +29,8 @@
         </table>
     </div>
 </div>
+<script>
+    setInterval(function() {
+        location.reload();
+    }, 6000); // 6000 milissegundos = 6 segundos
+</script>
