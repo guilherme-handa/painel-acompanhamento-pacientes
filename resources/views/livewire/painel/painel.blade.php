@@ -6,7 +6,7 @@
 
     <div class="w-full max-w-7xl overflow-x-auto rounded-xl shadow-lg bg-white">
         <table class="min-w-full table-auto">
-            <thead class="bg-blue-700 text-white text-lg">
+            <thead style="background-color: blue;">
                 <tr>
                     <th class="px-6 py-4">Paciente</th>
                     <th class="px-6 py-4">Idade</th>

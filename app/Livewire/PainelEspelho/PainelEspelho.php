@@ -1,22 +1,17 @@
 <?php
 
-namespace App\Livewire\Painel;
+namespace App\Livewire\PainelEspelho;
 
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use app\Helpers\CalculaIdade;
-use Livewire\Attributes\Layout;
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Support\Facades\Auth;
 
-class Painel extends Component
+class PainelEspelho extends Component
 {
     public $chamadas = [];
 
-    #[Layout('components.layouts.app-withoutsidebar')]
     public function render()
     {
-        // dd('teste');
         
         $this->chamadas = DB::connection('mysql')->select("SELECT *
                                                              FROM lista_chamadas  CHA

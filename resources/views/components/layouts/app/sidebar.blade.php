@@ -1,3 +1,6 @@
+@php
+$usuarioLogado = auth()->user();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
@@ -21,16 +24,24 @@
                 <flux:navlist.group :heading="__('Acompanhamento de pacientes')" class="grid">
                     <flux:navlist.item icon="user" :href="route('cadastro')" :current="request()->routeIs('cadastro')" wire:navigate>{{ __('Cadastrar Paciente') }}</flux:navlist.item>
                     <flux:navlist.item icon="tv" :href="route('painel-espelho')" :current="request()->routeIs('painel-espelho')" wire:navigate>{{ __('Painel Espelho') }}</flux:navlist.item>
+                    <flux:navlist.item icon="tv" :href="route('painel')" :current="request()->routeIs('painel')" wire:navigate>{{ __('Painel (ficará oculto)') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
             <flux:spacer />
 
+            @if ($usuarioLogado->id_permissao == 1)
             <flux:navlist variant="outline">
-                <flux:navlist.item icon="user-plus" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
+                <flux:navlist.item icon="user-plus" href="/register">
                 {{ __('Criar acesso') }}
                 </flux:navlist.item>
             </flux:navlist>
+            <flux:navlist variant="outline">
+                <flux:navlist.item icon="user-group" href="/usuarios">
+                {{ __('Gerenciar acessos') }}
+                </flux:navlist.item>
+            </flux:navlist>
+            @endif
 
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">

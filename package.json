@@ -18,8 +18,8 @@
         "lightningcss-linux-x64-gnu": "^1.29.1"
     },
     "devDependencies": {
-        "@tailwindcss/vite": "^4.1.6",
+        "@tailwindcss/vite": "^4.1.7",
         "daisyui": "^5.0.35",
-        "tailwindcss": "^4.1.6"
+        "tailwindcss": "^4.1.7"
     }
 }

@@ -5,12 +5,13 @@ namespace App\Livewire\Auth;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.auth')]
+#[Layout('components.layouts.app')]
 class Register extends Component
 {
     public string $name = '';
@@ -20,6 +21,8 @@ class Register extends Component
     public string $password = '';
 
     public string $password_confirmation = '';
+
+    public $permissoesOptions = [];
 
     /**
      * Handle an incoming registration request.
@@ -36,7 +39,7 @@ class Register extends Component
 
         event(new Registered(($user = User::create($validated))));
 
-        Auth::login($user);
+        // Auth::login($user);
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }

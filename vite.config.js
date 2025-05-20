@@ -13,6 +13,10 @@ export default defineConfig({
         tailwindcss(),
     ],
     server: {
-        cors: true,
+        host: '192.168.1.5', // seu IP local
+        port: 5173, // porta do Vite
+        hmr: {
+            host: '192.168.1.5', // importante para hot reload funcionar remotamente
+        },
     },
 });

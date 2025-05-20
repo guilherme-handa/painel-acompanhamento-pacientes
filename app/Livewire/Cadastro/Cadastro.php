@@ -5,6 +5,7 @@ namespace App\Livewire\Cadastro;
 use App\Models\ListaChamada;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use app\Helpers\CalculaIdade;
 
 class Cadastro extends Component
 {
@@ -13,6 +14,10 @@ class Cadastro extends Component
     public $statusOptions = [];
     public $modalDelete = false;
     public $nm_paciente, $dt_nascimento, $id_medico, $id_status, $sn_mostra_painel, $id_registro_delete;
+    public $users = [
+        ['id' => 1, 'name' => 'Joe'],
+        ['id' => 2,'name' => 'Mary','disabled' => true] // <-- this
+    ];
 
     public function render()
     {
@@ -42,7 +47,7 @@ class Cadastro extends Component
                 ':nm_paciente'      => $this->nm_paciente,
                 ':dt_nascimento'    => $this->dt_nascimento,
                 ':id_medico'        => $this->id_medico,
-                ':id_status'        => $this->id_status,
+                ':id_status'        => 1,
                 ':sn_mostra_painel' => $this->sn_mostra_painel,
             ]
         );
@@ -50,6 +55,7 @@ class Cadastro extends Component
         if ($insert) {
             session()->flash('message', 'Paciente adicionado com sucesso.');
             $this->reset('nm_paciente', 'dt_nascimento', 'id_medico', 'id_status', 'sn_mostra_painel');
+            $this->redirect('/cadastro');
         } else {
             session()->flash('error', 'Erro ao adicionar paciente.');
         }
@@ -70,7 +76,8 @@ class Cadastro extends Component
         );
 
         if ($update) {
-            session()->flash('message', 'Status atualizado com sucesso.');   
+            session()->flash('message', 'Status atualizado com sucesso.');
+            
         } else {
             session()->flash('error', 'Erro ao atualizar status.');
         }
@@ -90,6 +97,7 @@ class Cadastro extends Component
             $this->reset('id_registro_delete');
             $this->modalDelete = false;
             session()->flash('message', 'Registro apagado com sucesso.');   
+            $this->redirect('/cadastro');
         } else {
             session()->flash('error', 'Erro ao apagar registro.');
         }

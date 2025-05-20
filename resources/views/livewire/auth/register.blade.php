@@ -1,5 +1,9 @@
+@php
+$usuarioLogado = auth()->user();
+@endphp
 <div class="flex flex-col gap-6">
-    <x-auth-header :title="__('Create an account')" :description="__('Enter your details below to create your account')" />
+    @if ($usuarioLogado->id_permissao == 1)
+    <x-auth-header :title="__('Criar novo usuário')" :description="__('Preencha as informações para criar um novo usuário.')" />
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
@@ -8,55 +12,59 @@
         <!-- Name -->
         <flux:input
             wire:model="name"
-            :label="__('Name')"
+            :label="__('Usuário')"
             type="text"
             required
             autofocus
             autocomplete="name"
-            :placeholder="__('Full name')"
-        />
+            :placeholder="__('Nome de usuário')" />
 
         <!-- Email Address -->
         <flux:input
             wire:model="email"
-            :label="__('Email address')"
+            :label="__('E-mail')"
             type="email"
             required
             autocomplete="email"
-            placeholder="email@example.com"
-        />
+            placeholder="Endereço de e-mail" />
 
         <!-- Password -->
         <flux:input
             wire:model="password"
-            :label="__('Password')"
+            :label="__('Senha')"
             type="password"
             required
             autocomplete="new-password"
-            :placeholder="__('Password')"
-            viewable
-        />
+            :placeholder="__('Senha')"
+            viewable />
 
         <!-- Confirm Password -->
         <flux:input
             wire:model="password_confirmation"
-            :label="__('Confirm password')"
+            :label="__('Confirmar senha')"
             type="password"
             required
             autocomplete="new-password"
-            :placeholder="__('Confirm password')"
-            viewable
-        />
+            :placeholder="__('Confirmar senha')"
+            viewable />
+
+        <x-select class="cursor-pointer" :label="__('Permissão')" :placeholder="__('Selecionar permissão')">
+            
+            <option value="1">
+                teste
+            </option>
+            
+        </x-select>
 
         <div class="flex items-center justify-end">
             <flux:button type="submit" variant="primary" class="w-full">
-                {{ __('Create account') }}
+                {{ __('Criar novo usuário') }}
             </flux:button>
         </div>
     </form>
-
-    <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600 dark:text-zinc-400">
-        {{ __('Already have an account?') }}
-        <flux:link :href="route('login')" wire:navigate>{{ __('Log in') }}</flux:link>
-    </div>
+    @else
+        <div>
+            <h2>Seu acesso não tem permissão para acessar essa página.</h2>
+        </div>
+    @endif
 </div>
