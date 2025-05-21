@@ -1,6 +1,6 @@
 <section class="w-full">
     @include('partials.settings-heading')
-
+    @if (0 == 1)
     <x-settings.layout :heading="__('Conta')" :subheading="__('Atualize seu usuário e seu endereço de e-mail.')">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
             <flux:input wire:model="name" :label="__('Usuário')" type="text" required autofocus autocomplete="name" />
@@ -22,4 +22,5 @@
 
         
     </x-settings.layout>
+    @endif
 </section>

@@ -1,33 +1,33 @@
 <div class="min-h-screen bg-blue-50 flex flex-col items-center px-4 py-8">
     <div class="flex items-center gap-6 mb-10">
         <img src="{{ asset('img/logo_clinica.png') }}" alt="Logo da Clínica" class="h-32">
-        <h2 class="text-5xl font-semibold text-blue-900">Acompanhamento de Pacientes</h2>
+        <h2 style="color: #1c398e;" class="text-5xl font-semibold text-blue-900">Acompanhamento de Pacientes</h2>
     </div>
 
     <div class="w-full max-w-7xl overflow-x-auto rounded-xl shadow-lg bg-white">
         <table class="min-w-full table-auto">
-            <thead style="background-color: blue;">
+            <thead style="background-color: #1447e6; color: white;">
                 <tr>
                     <th class="px-6 py-4">Paciente</th>
                     <th class="px-6 py-4">Idade</th>
-                    <th class="px-6 py-4">Médico</th>
+                    <!-- <th class="px-6 py-4">Médico</th> -->
                     <th class="px-6 py-4">Status Atual</th>
                 </tr>
             </thead>
             <tbody class="text-blue-900 text-xl divide-y divide-blue-100">
                 @forelse ($chamadas as $chamada)
                     @if ($chamada->id_status == 4)
-                    <tr class="transition bg-green-200">
+                    <tr class="transition " style="background-color: #b9f8cf;">
                         <td class="px-6 py-4 text-center">{{ $chamada->nome_paciente }}</td>
                         <td class="px-6 py-4 text-center">{{ \App\Helpers\CalculaIdade::calcularIdade($chamada->dt_nascimento) }} anos</td>
-                        <td class="px-6 py-4 text-center">DR DOUGLAS GRION</td>
+                        <!-- <td class="px-6 py-4 text-center">DR DOUGLAS GRION</td> -->
                         <td class="px-6 py-4 text-center">{{ $chamada->descricao ?? '-' }}</td>
                     </tr>
                     @else
                     <tr class="transition">
                         <td class="px-6 py-4 text-center">{{ $chamada->nome_paciente }}</td>
                         <td class="px-6 py-4 text-center">{{ \App\Helpers\CalculaIdade::calcularIdade($chamada->dt_nascimento) }} anos</td>
-                        <td class="px-6 py-4 text-center">DR DOUGLAS GRION</td>
+                        <!-- <td class="px-6 py-4 text-center">DR DOUGLAS GRION</td> -->
                         <td class="px-6 py-4 text-center">{{ $chamada->descricao ?? '-' }}</td>
                     </tr>
                     @endif

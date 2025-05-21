@@ -6,6 +6,7 @@ use App\Models\ListaChamada;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use app\Helpers\CalculaIdade;
+use Toast;
 
 class Cadastro extends Component
 {
@@ -40,27 +41,41 @@ class Cadastro extends Component
 
         $this->id_status = (int)$this->id_status;
 
-        $insert = DB::connection('mysql')->statement(
-            "INSERT INTO lista_chamadas (nome_paciente, dt_nascimento, id_medico, id_status, sn_mostra_painel)
-             VALUES (:nm_paciente, :dt_nascimento, :id_medico, :id_status, :sn_mostra_painel)",
-            [
-                ':nm_paciente'      => $this->nm_paciente,
-                ':dt_nascimento'    => $this->dt_nascimento,
-                ':id_medico'        => $this->id_medico,
-                ':id_status'        => 1,
-                ':sn_mostra_painel' => $this->sn_mostra_painel,
-            ]
-        );
+        if ($this->is_correct($this->dt_nascimento)) {
 
-        if ($insert) {
-            session()->flash('message', 'Paciente adicionado com sucesso.');
-            $this->reset('nm_paciente', 'dt_nascimento', 'id_medico', 'id_status', 'sn_mostra_painel');
-            $this->redirect('/cadastro');
+            $insert = DB::connection('mysql')->statement(
+                "INSERT INTO lista_chamadas (nome_paciente, dt_nascimento, id_status, sn_mostra_painel)
+                 VALUES (:nm_paciente, :dt_nascimento, :id_status, :sn_mostra_painel)",
+                [
+                    ':nm_paciente'      => $this->nm_paciente,
+                    ':dt_nascimento'    => $this->dt_nascimento,
+                    // ':id_medico'        => $this->id_medico,
+                    ':id_status'        => 1,
+                    ':sn_mostra_painel' => $this->sn_mostra_painel,
+                ]
+            );
+    
+            if ($insert) {
+                session()->flash('message', 'Paciente adicionado com sucesso.');
+                $this->reset('nm_paciente', 'dt_nascimento', 'id_status', 'sn_mostra_painel');
+                $this->redirect('/cadastro');
+            } else {
+                session()->flash('error', 'Erro ao adicionar paciente.');
+            }
         } else {
-            session()->flash('error', 'Erro ao adicionar paciente.');
+            session()->flash('Data de nascimento inválida.');
         }
 
     }
+
+    public function is_correct($data)
+    {
+
+        $d = \DateTime::createFromFormat('Y-m-d', $data);
+        return $d && $d->format('Y-m-d') === $data;
+
+    }
+
 
     public function atualizarStatus($index, $novoStatus)
     {

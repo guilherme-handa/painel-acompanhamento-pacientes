@@ -9,9 +9,7 @@ use App\Livewire\Settings\Profile;
 use App\Livewire\Usuarios\Usuarios;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware(['auth', 'verified'])->name('home');
+Route::get('/', Cadastro::class)->middleware(['auth', 'verified'])->name('cadastro');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -19,7 +17,7 @@ Route::view('dashboard', 'dashboard')
 
 Route::get('/cadastro', Cadastro::class)->middleware(['auth', 'verified'])->name('cadastro');
 Route::get('/painel-espelho',PainelEspelho::class)->middleware(['auth', 'verified'])->name('painel-espelho');
-Route::get('/usuarios',Usuarios::class)->middleware(['auth', 'verified'])->name('usuarios');
+// Route::get('/usuarios',Usuarios::class)->middleware(['auth', 'verified'])->name('usuarios');
 Route::get('/painel', Painel::class)->name('painel');
 
 Route::middleware(['auth'])->group(function () {

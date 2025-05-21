@@ -28,7 +28,7 @@ class Login extends Component
      */
     public function login(): void
     {
-        // dd('aq');
+
         $this->validate();
 
         $this->ensureIsNotRateLimited();
@@ -37,14 +37,14 @@ class Login extends Component
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
+                'email' => __('E-mail ou senha incorretos.'),
             ]);
         }
 
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: route('cadastro', absolute: false), navigate: true);
     }
 
     /**

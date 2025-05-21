@@ -1,6 +1,6 @@
 <section class="w-full">
     @include('partials.settings-heading')
-
+    @if (0 == 1)
     <x-settings.layout :heading="__('Alterar senha')" :subheading="__('')">
         <form wire:submit="updatePassword" class="mt-6 space-y-6">
             <flux:input
@@ -36,4 +36,5 @@
             </div>
         </form>
     </x-settings.layout>
+    @endif
 </section>

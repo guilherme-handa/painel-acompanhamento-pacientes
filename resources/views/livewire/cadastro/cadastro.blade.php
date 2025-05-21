@@ -12,13 +12,13 @@ $usuarioLogado = auth()->user();
 
             <x-input label="Data de Nascimento" class="cursor-pointer" wire:model="dt_nascimento" id="nascimento" name="nascimento" type="date" required />
 
-            <x-select label="Médico" class="cursor-pointer" wire:model="id_medico" id="medico" name="medico" required>
+            <!-- <x-select label="Médico" class="cursor-pointer" wire:model="id_medico" id="medico" name="medico" required>
                 <option value="" selected>Selecione um médico</option>
                 <option value="1">DR DOUGLAS GRION</option>
                 <option value="2">LUCIANO RODRIGUES E SILVA</option>
                 <option value="3">JOÃO AUGUSTO SILVA</option>
                 <option value="4">CLAUDIO CAETANO</option>
-            </x-select>
+            </x-select> -->
 
             @if(1 == 0)
             <x-select label="Status" class="cursor-pointer" wire:model="id_status" id="status" name="status" required>
@@ -51,7 +51,7 @@ $usuarioLogado = auth()->user();
                 <tr>
                     <th>Paciente</th>
                     <th>Idade</th>
-                    <th>Médico</th>
+                    <!-- <th>Médico</th> -->
                     <th>Status Atual</th>
                     <th>Ações</th>
                 </tr>
@@ -61,7 +61,7 @@ $usuarioLogado = auth()->user();
                 <tr class="hover:bg-gray-100">
                     <td>{{ $chamada->nome_paciente }}</td>
                     <td>{{ \App\Helpers\CalculaIdade::calcularIdade($chamada->dt_nascimento) }} anos</td>
-                    <td>DR DOUGLAS GRION</td>
+                    <!-- <td>DR DOUGLAS GRION</td> -->
 
                     @if ($usuarioLogado->id_permissao == 3 || $usuarioLogado->id_permissao == 1)
                     <td>

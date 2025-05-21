@@ -2,7 +2,7 @@
 $usuarioLogado = auth()->user();
 @endphp
 <div class="flex flex-col gap-6">
-    @if ($usuarioLogado->id_permissao == 1)
+    @if (0 == 1)
     <x-auth-header :title="__('Criar novo usuário')" :description="__('Preencha as informações para criar um novo usuário.')" />
 
     <!-- Session Status -->

@@ -18,7 +18,7 @@ class PainelEspelho extends Component
                                                                  ,status_paciente STA
                                                             WHERE CHA.sn_mostra_painel = 'S'
                                                               AND CHA.id_status = STA.id_status
-                                                            ORDER BY STA.id_status
+                                                            ORDER BY STA.id_status, CHA.nome_paciente
                                                              ");
 
         return view('livewire.painel.painel');

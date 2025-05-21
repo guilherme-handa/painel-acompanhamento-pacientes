@@ -10,7 +10,7 @@ $usuarioLogado = auth()->user();
         <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-            <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
+            <a href="{{ route('cadastro') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
                 <x-app-logo />
             </a>
 
@@ -30,7 +30,7 @@ $usuarioLogado = auth()->user();
 
             <flux:spacer />
 
-            @if ($usuarioLogado->id_permissao == 1)
+            @if (0 == 1)
             <flux:navlist variant="outline">
                 <flux:navlist.item icon="user-plus" href="/register">
                 {{ __('Criar acesso') }}
@@ -71,13 +71,14 @@ $usuarioLogado = auth()->user();
                         </div>
                     </flux:menu.radio.group>
 
-                    <flux:menu.separator />
+                    <!-- <flux:menu.separator /> -->
 
+                    @if (0 == 1)
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Configurações') }}</flux:menu.item>
                     </flux:menu.radio.group>
-
-                    <flux:menu.separator />
+                    @endif
+                    <!-- <flux:menu.separator /> -->
 
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf

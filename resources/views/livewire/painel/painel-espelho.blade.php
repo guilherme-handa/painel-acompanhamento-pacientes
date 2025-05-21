@@ -10,7 +10,7 @@
                 <tr>
                     <th class="px-6 py-4">Paciente</th>
                     <th class="px-6 py-4">Idade</th>
-                    <th class="px-6 py-4">Médico</th>
+                    <!-- <th class="px-6 py-4">Médico</th> -->
                     <th class="px-6 py-4">Status Atual</th>
                 </tr>
             </thead>
@@ -20,14 +20,14 @@
                     <tr class="transition bg-green-200">
                         <td class="px-6 py-4 text-center">{{ $chamada->nome_paciente }}</td>
                         <td class="px-6 py-4 text-center">{{ \App\Helpers\CalculaIdade::calcularIdade($chamada->dt_nascimento) }} anos</td>
-                        <td class="px-6 py-4 text-center">DR DOUGLAS GRION</td>
+                        <!-- <td class="px-6 py-4 text-center">DR DOUGLAS GRION</td> -->
                         <td class="px-6 py-4 text-center">{{ $chamada->descricao ?? '-' }}</td>
                     </tr>
                     @else
                     <tr class="transition">
                         <td class="px-6 py-4 text-center">{{ $chamada->nome_paciente }}</td>
                         <td class="px-6 py-4 text-center">{{ \App\Helpers\CalculaIdade::calcularIdade($chamada->dt_nascimento) }} anos</td>
-                        <td class="px-6 py-4 text-center">DR DOUGLAS GRION</td>
+                        <!-- <td class="px-6 py-4 text-center">DR DOUGLAS GRION</td> -->
                         <td class="px-6 py-4 text-center">{{ $chamada->descricao ?? '-' }}</td>
                     </tr>
                     @endif
