@@ -24,7 +24,7 @@ $usuarioLogado = auth()->user();
                 <flux:navlist.group :heading="__('Acompanhamento de pacientes')" class="grid">
                     <flux:navlist.item icon="user" :href="route('cadastro')" :current="request()->routeIs('cadastro')" wire:navigate>{{ __('Cadastrar Paciente') }}</flux:navlist.item>
                     <flux:navlist.item icon="tv" :href="route('painel-espelho')" :current="request()->routeIs('painel-espelho')" wire:navigate>{{ __('Painel Espelho') }}</flux:navlist.item>
-                    <flux:navlist.item icon="tv" :href="route('painel')" :current="request()->routeIs('painel')" wire:navigate>{{ __('Painel (ficará oculto)') }}</flux:navlist.item>
+                    <!-- <flux:navlist.item icon="tv" :href="route('painel')" :current="request()->routeIs('painel')" wire:navigate>{{ __('Painel (ficará oculto)') }}</flux:navlist.item> -->
                 </flux:navlist.group>
             </flux:navlist>
 
